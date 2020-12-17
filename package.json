@@ -1,0 +1,34 @@
+{
+    "name": "portfolio-aws-backend",
+    "version": "1.0.0",
+    "description": "This is the Rest API for the Portfolio project hosted on Netlify.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ioanatatu/portfolio-aws-backend.git"
+    },
+    "keywords": [
+        "nodeJS",
+        "express",
+        "server-side",
+        "backend",
+        "aws",
+        "serverless",
+        "Rest",
+        "API"
+    ],
+    "author": "Ioana Tatu",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/ioanatatu/portfolio-aws-backend/issues"
+    },
+    "homepage": "https://github.com/ioanatatu/portfolio-aws-backend#readme",
+    "dependencies": {
+        "express": "^4.17.1",
+        "nodemon": "^2.0.6"
+    }
+}
