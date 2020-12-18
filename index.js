@@ -1,5 +1,8 @@
 const express = require("express");
 const app = express();
+const journal = require("./journal");
+
+console.log("journal", journal);
 
 app.get("/", (req, res) => {
     res.send("<h1>test</h1>");
@@ -15,6 +18,10 @@ app.get("/brasov", (req, res) => {
             { name: "Abra", features: ["happy", "big heart"] },
         ],
     });
+});
+
+app.get("/journal", (req, res) => {
+    res.json(journal);
 });
 
 const PORT = process.env.PORT || 4006;
