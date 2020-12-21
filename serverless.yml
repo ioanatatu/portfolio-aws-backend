@@ -1,0 +1,44 @@
+service:
+    name: portfolio-aws-sls
+
+plugins:
+    - serverless-bundle
+    - serverless-pseudo-parameters
+
+provider:
+    name: aws
+    runtime: nodejs12.x
+    memorySize: 256
+    stage: ${opt:stage, 'dev'}
+    region: eu-central-1
+    environment:
+        PROJECTS_TABLE_NAME: ${self:custom.ProjectsTable.name}
+    iamRoleStatements:
+        - ${file(iam/ProjectsTableIAM.yml):ProjectsTableIAM}
+
+resources:
+    Resources:
+        ProjectsTable: ${file(resources/ProjectsTable.yml):ProjectsTable}
+
+functions:
+    getProjects:
+        handler: src/handlers/getProjects.handler
+        events:
+            - http:
+                  method: GET
+                  path: /projects
+                  cors: true
+    createProject:
+        handler: src/handlers/createProject.handler
+        events:
+            - http:
+                  method: POST
+                  path: /project
+                  cors: true
+
+custom:
+    ProjectsTable:
+        name: !Ref ProjectsTable
+        arn: !GetAtt ProjectsTable.Arn
+    bundle:
+        # linting: false
