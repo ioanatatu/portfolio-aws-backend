@@ -13,6 +13,13 @@ provider:
     region: eu-west-1
     apiGateway:
         shouldStartNameWithService: true
+    environment:
+        PROJECTS_TABLE_NAME: ${self:custom.tableName}
+    iamRoleStatements:
+        - Effect: Allow
+          Action:
+              - dynamodb:*
+          Resource: "*"
 
 # you can overwrite defaults here
 #  stage: dev
@@ -34,11 +41,10 @@ provider:
 #            - "/*"
 
 # you can define service wide environment variables here
-#  environment:
-#    variable1: value1
 
 # you can add packaging information here
-#package:
+package:
+    individually: true
 #  include:
 #    - include-me.js
 #    - include-me-dir/**
@@ -90,10 +96,6 @@ functions:
 #            host: example.com
 #            path: /hello
 
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
-
 # you can add CloudFormation resource templates here
 resources:
     Resources:
@@ -101,15 +103,23 @@ resources:
             Type: AWS::S3::Bucket
             Properties:
                 BucketName: test-this-bucket-1836812638
-
+        ProjectsTable:
+            Type: AWS::DynamoDB::Table
+            Properties:
+                TableName: ${self:custom.tableName}
+                AttributeDefinitions:
+                    - AttributeName: ID
+                      AttributeType: S
+                KeySchema:
+                    - AttributeName: ID
+                      KeyType: HASH
+                BillingMode: PAY_PER_REQUEST
 plugins:
     - serverless-s3-sync
+    - serverless-webpack
 
 custom:
+    tableName: projects-table
     s3Sync:
         - bucketName: test-this-bucket-1836812638
           localDir: TestUpload
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
