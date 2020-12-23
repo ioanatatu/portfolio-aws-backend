@@ -38,6 +38,11 @@ async function createProject(event, context) {
     }
 
     return {
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Origin": "*",
+        },
         statusCode: 201,
         body: JSON.stringify(project),
     };
