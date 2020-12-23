@@ -5,9 +5,6 @@
 #    docs.serverless.com
 
 service: portfolio-aws-sls
-# app and org for use with dashboard.serverless.com
-#app: your-app-name
-#org: your-org-name
 
 provider:
     name: aws
@@ -19,7 +16,6 @@ provider:
 
 # you can overwrite defaults here
 #  stage: dev
-#  region: us-east-1
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -99,12 +95,20 @@ functions:
 #      variable2: value2
 
 # you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
+resources:
+    Resources:
+        DemoBucket:
+            Type: AWS::S3::Bucket
+            Properties:
+                BucketName: test-this-bucket-1836812638
+
+plugins:
+    - serverless-s3-sync
+
+custom:
+    s3Sync:
+        - bucketName: test-this-bucket-1836812638
+          localDir: TestUpload
 #  Outputs:
 #     NewOutput:
 #       Description: "Description for the output"
