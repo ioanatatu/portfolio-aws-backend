@@ -1,28 +1,21 @@
-# Welcome to Serverless!
-#
 # This file is the main config file for your service.
 # It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
 #
 # For full config options, check the docs:
 #    docs.serverless.com
-#
-# Happy Coding!
 
 service: portfolio-aws-sls
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
 #org: your-org-name
 
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-frameworkVersion: '2'
-
 provider:
-  name: aws
-  runtime: nodejs12.x
+    name: aws
+    runtime: nodejs12.x
+    profile: portfolioSlsUser
+    region: eu-west-1
+    apiGateway:
+        shouldStartNameWithService: true
 
 # you can overwrite defaults here
 #  stage: dev
@@ -58,8 +51,13 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
+    getProjects:
+        handler: lambdas/endpoints/getProjects.handler
+        events:
+            - http:
+                  path: /projects
+                  method: GET
+                  cors: true
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
