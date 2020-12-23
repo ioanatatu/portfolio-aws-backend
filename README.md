@@ -11,4 +11,4 @@
 
 #
 
-Go to frontend repo: https://github.com/ioanatatu/portfolio-client
+See also frontend repo: https://github.com/ioanatatu/portfolio-client
