@@ -5,9 +5,14 @@ import AWS from "aws-sdk";
 import middy from "@middy/core";
 import jsonBodyParser from "@middy/http-json-body-parser";
 
+// lib
+import checkProjectExists from "../lib/checkProjectExists";
+const Responses = require("../lib/API_Responses");
+
+// dynamoDB
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-async function createProject(event, context) {
+async function createProject(event) {
     const {
         title,
         description,
@@ -16,6 +21,7 @@ async function createProject(event, context) {
         externalLink,
         logo,
     } = event.body;
+
     const now = new Date();
 
     const project = {
@@ -23,33 +29,30 @@ async function createProject(event, context) {
         title,
         description,
         techStack,
-        githubLink,
         externalLink,
+        githubLink,
         logo,
         createdAt: now.toISOString(),
     };
 
-    try {
-        await dynamodb
-            .put({
-                TableName: process.env.PROJECTS_TABLE_NAME,
-                Item: project,
-            })
-            .promise();
-    } catch (error) {
-        console.error(error);
-        throw new Error("project not created");
-    }
+    const projectExists = await checkProjectExists(title, "title");
 
-    return {
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Methods": "*",
-            "Access-Control-Allow-Origin": "*",
-        },
-        statusCode: 201,
-        body: JSON.stringify(project),
-    };
+    if (!projectExists) {
+        try {
+            await dynamodb
+                .put({
+                    TableName: process.env.PROJECTS_TABLE_NAME,
+                    Item: project,
+                })
+                .promise();
+            return Responses._201(project);
+        } catch (error) {
+            console.error(error);
+            return Responses._DefaultResponse();
+        }
+    } else {
+        return Responses._409();
+    }
 }
 
 export const handler = middy(createProject).use(jsonBodyParser());
