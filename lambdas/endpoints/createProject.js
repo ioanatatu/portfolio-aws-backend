@@ -1,6 +1,10 @@
 import { v4 as uuid } from "uuid";
 import AWS from "aws-sdk";
 
+// middleware
+import middy from "@middy/core";
+import jsonBodyParser from "@middy/http-json-body-parser";
+
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function createProject(event, context) {
@@ -11,7 +15,7 @@ async function createProject(event, context) {
         githubLink,
         externalLink,
         logo,
-    } = JSON.parse(event.body);
+    } = event.body;
     const now = new Date();
 
     const project = {
@@ -48,4 +52,4 @@ async function createProject(event, context) {
     };
 }
 
-export const handler = createProject;
+export const handler = middy(createProject).use(jsonBodyParser());

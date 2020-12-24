@@ -35,7 +35,7 @@ custom:
     tableName: projects-table
     imagesBucketName: portfolio-images-bucket-hsjgh346
     s3Sync:
-        - bucketName: test-this-bucket-1836812638
+        - bucketName: test-this-bucket-20201224
           localDir: TestUpload
 
 functions:
@@ -66,7 +66,7 @@ resources:
         DemoBucket:
             Type: AWS::S3::Bucket
             Properties:
-                BucketName: test-this-bucket-1836812638
+                BucketName: test-this-bucket-20201224
         PortfolioImagesBucket:
             Type: AWS::S3::Bucket
             Properties:

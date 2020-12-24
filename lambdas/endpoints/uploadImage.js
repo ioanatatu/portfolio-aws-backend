@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { uploadPictureToS3 } from "../lib/uploadPictureToS3";
 
 export async function uploadImage(event, context) {
-    const { img } = JSON.parse(event.body);
+    const { img } = event.body;
     console.log("body\n\n", img);
     const base64 = img.replace(/^data:image\/\w+;base64,/, "");
     const buffer = Buffer.from(base64, "base64");

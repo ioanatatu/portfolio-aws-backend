@@ -6,3 +6,5 @@ jspm_packages
 .serverless
 
 /lambdas/lib/Dynamo.js
+
+package-lock.json
