@@ -53,6 +53,13 @@ functions:
                   path: /project
                   method: POST
                   cors: true
+    createProjectTest:
+        handler: lambdas/endpoints/createProjectTest.handler
+        events:
+            - http:
+                  path: /projectTest
+                  method: POST
+                  cors: true
     uploadImage:
         handler: lambdas/endpoints/uploadImage.handler
         events:
@@ -79,7 +86,20 @@ resources:
                 AttributeDefinitions:
                     - AttributeName: ID
                       AttributeType: S
+                    - AttributeName: title
+                      AttributeType: S
                 KeySchema:
                     - AttributeName: ID
                       KeyType: HASH
                 BillingMode: PAY_PER_REQUEST
+
+                GlobalSecondaryIndexes:
+                    - IndexName: title-index
+                      KeySchema:
+                          - AttributeName: title
+                            KeyType: HASH
+                      Projection:
+                          ProjectionType: ALL
+
+                    # add a global secondary index -> similar to id and we can query on that
+                    # id must be unique, but global sec indexes not

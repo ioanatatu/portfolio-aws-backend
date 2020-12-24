@@ -9,7 +9,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function createProject(event, context) {
     const {
-        name,
+        title,
         description,
         techStack,
         githubLink,
@@ -20,7 +20,7 @@ async function createProject(event, context) {
 
     const project = {
         ID: uuid(),
-        name,
+        title,
         description,
         techStack,
         githubLink,
