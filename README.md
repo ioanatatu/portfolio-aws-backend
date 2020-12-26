@@ -4,9 +4,9 @@
 
 #
 
-## Resources included so far
+## AWS resources included so far
 
--   aws S3 for image storage
+-   S3 for image storage
 -   DynamoDB for data storage
 
 #

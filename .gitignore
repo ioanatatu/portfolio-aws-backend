@@ -8,3 +8,4 @@ jspm_packages
 /lambdas/lib/Dynamo.js
 
 package-lock.json
+secrets.js

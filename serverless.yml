@@ -53,13 +53,6 @@ functions:
                   path: /project
                   method: POST
                   cors: true
-    createProjectTest:
-        handler: lambdas/endpoints/createProjectTest.handler
-        events:
-            - http:
-                  path: /projectTest
-                  method: POST
-                  cors: true
     uploadImage:
         handler: lambdas/endpoints/uploadImage.handler
         events:
