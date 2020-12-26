@@ -15,7 +15,7 @@ provider:
         shouldStartNameWithService: true
     environment:
         PROJECTS_TABLE_NAME: ${self:custom.tableName}
-        IMAGES_BUCKET_NAME: ${self:custom.imagesBucketName}
+        IMAGES_BUCKET_NAME: portfolio-images-bucket-hsjgh346/projects-logos
         REGION: ${self:provider.region}
     iamRoleStatements:
         - Effect: Allow

@@ -17,14 +17,14 @@ const Responses = {
     _201(data = {}) {
         return this._DefaultResponse(200, data);
     },
+    _400(data = {}) {
+        return this._DefaultResponse(400, data);
+    },
     _401(message) {
         return this._DefaultResponse(
             401,
             message || "Password does not match."
         );
-    },
-    _400(data = {}) {
-        return this._DefaultResponse(400, data);
     },
     _404(data = {}) {
         return this._DefaultResponse(404, data);
