@@ -18,8 +18,8 @@ async function createProject(event) {
         title,
         description,
         techStack,
-        githubLink,
         externalLink,
+        githubLinks,
         logo,
         password,
     } = event.body;
@@ -33,7 +33,7 @@ async function createProject(event) {
             description,
             techStack,
             externalLink,
-            githubLink,
+            githubLinks,
             logo,
             createdAt: now.toISOString(),
         };

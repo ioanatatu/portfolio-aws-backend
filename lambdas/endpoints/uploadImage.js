@@ -1,5 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { uploadPictureToS3 } from "../lib/uploadPictureToS3";
+import * as fileType from "file-type";
 
 // middleware
 import middy from "@middy/core";
@@ -20,13 +21,32 @@ export async function uploadImage(event) {
         return Responses._400({ message: "Mime is not allowed." });
     }
 
-    const base64 = body.img.replace(/^data:image\/\w+;base64,/, "");
-    const buffer = Buffer.from(base64, "base64");
+    let imageData = body.img;
 
-    const key = new Date().toISOString();
+    if (imageData.startsWith("base64")) {
+        imageData = imageData.replace("base64,", "");
+    }
+
+    const buffer = Buffer.from(imageData, "base64");
+
+    const fileInfo = await fileType.fromBuffer(buffer);
+
+    const detectedMime = fileInfo.mime;
+    const detectedExt = fileInfo.ext;
+
+    if (detectedMime !== body.mime) {
+        return Responses._400({ message: "mime types do not match" });
+    }
+
+    const name = new Date()
+        .toISOString()
+        .replace(":", "")
+        .replace(":", "")
+        .split(".")[0];
+    const key = `${name}.${detectedExt}`;
 
     try {
-        const url = await uploadPictureToS3(key, buffer);
+        const url = await uploadPictureToS3(key, buffer, body.mime);
 
         return {
             headers: {
