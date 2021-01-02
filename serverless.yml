@@ -1,6 +1,4 @@
 # This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-#
 # For full config options, check the docs:
 #    docs.serverless.com
 
@@ -14,7 +12,8 @@ provider:
     apiGateway:
         shouldStartNameWithService: true
     environment:
-        PROJECTS_TABLE_NAME: ${self:custom.tableName}
+        PROJECTS_TABLE_NAME: ${self:custom.tableNames.projectsTableName}
+        JOURNAL_TABLE_NAME: ${self:custom.tableNames.journalEntriesTableName}
         IMAGES_BUCKET_NAME: portfolio-images-bucket-hsjgh346/projects-logos
         REGION: ${self:provider.region}
     iamRoleStatements:
@@ -27,16 +26,22 @@ provider:
 plugins:
     - serverless-s3-sync
     - serverless-webpack
+    # - serverless-plugin-tables
 
 package:
     individually: true
 
 custom:
-    tableName: projects-table
+    tableNames:
+        - projectsTableName: projects-table
+        - journalEntriesTableName: journal-entries-table
     imagesBucketName: portfolio-images-bucket-hsjgh346
     s3Sync:
         - bucketName: test-this-bucket-20201224
           localDir: TestUpload
+    # tables:
+    #     dynamo:
+    #         deploymentBatchSize: 5
 
 functions:
     getProjects:
@@ -60,6 +65,20 @@ functions:
                   path: /image
                   method: POST
                   cors: true
+    createJournalEntry:
+        handler: lambdas/endpoints/createJournalEntry.handler
+        events:
+            - http:
+                  path: /journal-entry
+                  method: POST
+                  cors: true
+    getJournalEntries:
+        handler: lambdas/endpoints/getJournalEntries.handler
+        events:
+            - http:
+                  path: /journal-entries
+                  method: GET
+                  cors: true
 
 resources:
     Resources:
@@ -75,7 +94,7 @@ resources:
         ProjectsTable:
             Type: AWS::DynamoDB::Table
             Properties:
-                TableName: ${self:custom.tableName}
+                TableName: ${self:custom.tableNames.0.projectsTableName}
                 AttributeDefinitions:
                     - AttributeName: ID
                       AttributeType: S
@@ -93,6 +112,32 @@ resources:
                             KeyType: HASH
                       Projection:
                           ProjectionType: ALL
+        JournalEntriesTable:
+            Type: AWS::DynamoDB::Table
+            Properties:
+                TableName: ${self:custom.tableNames.1.journalEntriesTableName}
+                AttributeDefinitions:
+                    - AttributeName: ID
+                      AttributeType: S
+                KeySchema:
+                    - AttributeName: ID
+                      KeyType: HASH
+                BillingMode: PAY_PER_REQUEST
 
-                    # add a global secondary index -> similar to id and we can query on that
-                    # id must be unique, but global sec indexes not
+    # tables:
+    #     JournalEntries:
+    #         name: ${self:custom.tableNames.journalEntriesTableName}
+    #         resourceName: journal-entries-table
+    #         type: dynamo
+    #         partitionKey: date
+
+    # GlobalSecondaryIndexes:
+    #     - IndexName: title-index
+    #       KeySchema:
+    #           - AttributeName: title
+    #             KeyType: HASH
+    #       Projection:
+    #           ProjectionType: ALL
+
+    # add a global secondary index -> similar to id and we can query on that
+    # id must be unique, but global sec indexes not
