@@ -22,40 +22,65 @@ async function createJournalEntry(event) {
         images: [],
     };
 
-    if (password === pass) {
-        const journalEntry = {
-            ID: dateAsID,
-            projects: [projectObject],
-        };
+    // check if password in correct
+    if (password !== pass) {
+        return Responses._401();
+    }
 
-        const dateExists = await checkDateExists(dateAsID, "ID");
+    const journalEntry = {
+        ID: dateAsID,
+        projects: [projectObject],
+    };
 
-        if (!dateExists) {
-            try {
-                await dynamodb
-                    .put({
-                        TableName: process.env.JOURNAL_TABLE_NAME,
-                        Item: journalEntry,
-                    })
-                    .promise();
-                return Responses._201(journalEntry);
-            } catch (error) {
-                console.error(error);
-                return Responses._DefaultResponse();
-            }
-        } else {
-            return {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Methods": "*",
-                    "Access-Control-Allow-Origin": "*",
-                },
-                statusCode: 200,
-                body: JSON.stringify("DATE EXISTS"),
-            };
+    const dateExists = await checkDateExists(dateAsID, "ID");
+
+    if (!dateExists) {
+        try {
+            await dynamodb
+                .put({
+                    TableName: process.env.JOURNAL_TABLE_NAME,
+                    Item: journalEntry,
+                })
+                .promise();
+            return Responses._201(journalEntry);
+        } catch (error) {
+            console.error(error);
+            return Responses._DefaultResponse();
         }
     } else {
-        return Responses._401();
+        try {
+            const res = await dynamodb
+                .get({
+                    TableName: process.env.JOURNAL_TABLE_NAME,
+                    Key: { ID: dateAsID },
+                })
+                .promise();
+
+            const projects = res.Item.projects;
+
+            const projectExists = projects.filter((proj) => proj.name === project)
+                .length;
+
+            if (projectExists) {
+                return Responses._409(
+                    `Project exists in the journal entry of ${dateAsID}`
+                );
+            } else {
+                return {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Methods": "*",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                    statusCode: 200,
+                    body: JSON.stringify(
+                        "NEED TO FIGURE OUT HOW TO INSERT PROJECT IN THE DATE OBJ IF THE OBJ DOES NOT INCLUDE THAT PROJECT"
+                    ),
+                };
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
 }
 
