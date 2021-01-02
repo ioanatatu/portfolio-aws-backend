@@ -12,8 +12,8 @@ provider:
     apiGateway:
         shouldStartNameWithService: true
     environment:
-        PROJECTS_TABLE_NAME: ${self:custom.tableNames.projectsTableName}
-        JOURNAL_TABLE_NAME: ${self:custom.tableNames.journalEntriesTableName}
+        PROJECTS_TABLE_NAME: ${self:custom.tableNames.0.projectsTableName}
+        JOURNAL_TABLE_NAME: ${self:custom.tableNames.1.journalEntriesTableName}
         IMAGES_BUCKET_NAME: portfolio-images-bucket-hsjgh346/projects-logos
         REGION: ${self:provider.region}
     iamRoleStatements:
@@ -39,9 +39,6 @@ custom:
     s3Sync:
         - bucketName: test-this-bucket-20201224
           localDir: TestUpload
-    # tables:
-    #     dynamo:
-    #         deploymentBatchSize: 5
 
 functions:
     getProjects:
@@ -123,21 +120,6 @@ resources:
                     - AttributeName: ID
                       KeyType: HASH
                 BillingMode: PAY_PER_REQUEST
-
-    # tables:
-    #     JournalEntries:
-    #         name: ${self:custom.tableNames.journalEntriesTableName}
-    #         resourceName: journal-entries-table
-    #         type: dynamo
-    #         partitionKey: date
-
-    # GlobalSecondaryIndexes:
-    #     - IndexName: title-index
-    #       KeySchema:
-    #           - AttributeName: title
-    #             KeyType: HASH
-    #       Projection:
-    #           ProjectionType: ALL
 
     # add a global secondary index -> similar to id and we can query on that
     # id must be unique, but global sec indexes not
