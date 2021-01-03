@@ -60,6 +60,7 @@ async function createJournalEntry(event) {
 
             const projectExists = projects.filter((proj) => proj.name === project)
                 .length;
+            console.log("example ", projects, projectExists);
 
             if (projectExists) {
                 return Responses._409(

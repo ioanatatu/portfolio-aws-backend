@@ -21,10 +21,7 @@ const Responses = {
         return this._DefaultResponse(400, data);
     },
     _401(message) {
-        return this._DefaultResponse(
-            401,
-            message || "Password does not match."
-        );
+        return this._DefaultResponse(401, message || "Password does not match.");
     },
     _404(data = {}) {
         return this._DefaultResponse(404, data);
@@ -34,6 +31,9 @@ const Responses = {
             409,
             message || "This project name already exists."
         );
+    },
+    _300(message) {
+        return this._DefaultResponse(300, message || "Change to avoid sls error.");
     },
 };
 
