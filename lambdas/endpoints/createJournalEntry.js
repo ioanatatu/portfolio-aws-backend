@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 import AWS from "aws-sdk";
 
 // middleware
@@ -28,11 +29,12 @@ async function createJournalEntry(event) {
     }
 
     const journalEntry = {
-        ID: dateAsID,
+        ID: uuid(),
+        date: dateAsID,
         projects: [projectObject],
     };
 
-    const dateExists = await checkDateExists(dateAsID, "ID");
+    const dateExists = await checkDateExists(dateAsID, "date");
 
     if (!dateExists) {
         try {

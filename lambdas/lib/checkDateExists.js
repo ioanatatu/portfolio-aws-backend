@@ -4,9 +4,9 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 export default async (value, queryKey) => {
     const params = {
         TableName: process.env.JOURNAL_TABLE_NAME,
-        KeyConditionExpression: `${queryKey} = :hkey`,
+        KeyConditionExpression: `${queryKey} = :skey`,
         ExpressionAttributeValues: {
-            ":hkey": value,
+            ":skey": value,
         },
     };
 
