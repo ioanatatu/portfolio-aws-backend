@@ -123,9 +123,13 @@ resources:
                 AttributeDefinitions:
                     - AttributeName: ID
                       AttributeType: S
+                    - AttributeName: date
+                      AttributeType: S
                 KeySchema:
                     - AttributeName: ID
                       KeyType: HASH
+                    - AttributeName: date
+                      KeyType: RANGE
                 BillingMode: PAY_PER_REQUEST
 
     # add a global secondary index -> similar to id and we can query on that
