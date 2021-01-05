@@ -11,6 +11,8 @@ async function getJournalEntries() {
 
     const params = {
         TableName: process.env.JOURNAL_TABLE_NAME,
+        ProjectionExpression: "#d",
+        ExpressionAttributeNames: { "#d": "date" },
     };
 
     try {

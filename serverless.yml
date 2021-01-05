@@ -76,6 +76,13 @@ functions:
                   path: /journal-entry
                   method: POST
                   cors: true
+    getJournalEntry:
+        handler: lambdas/endpoints/getJournalEntry.handler
+        events:
+            - http:
+                  path: /journal-entry/{journalEntryDate}
+                  method: get
+                  cors: true
     getJournalEntries:
         handler: lambdas/endpoints/getJournalEntries.handler
         events:
