@@ -80,6 +80,10 @@ functions:
         handler: lambdas/endpoints/getJournalEntry.handler
         events:
             - http:
+                  path: /journal-entry
+                  method: get
+                  cors: true
+            - http:
                   path: /journal-entry/{journalEntryDate}
                   method: get
                   cors: true
@@ -138,6 +142,14 @@ resources:
                     - AttributeName: date
                       KeyType: RANGE
                 BillingMode: PAY_PER_REQUEST
+
+                GlobalSecondaryIndexes:
+                    - IndexName: date-index
+                      KeySchema:
+                          - AttributeName: date
+                            KeyType: HASH
+                      Projection:
+                          ProjectionType: ALL
 
     # add a global secondary index -> similar to id and we can query on that
     # id must be unique, but global sec indexes not
