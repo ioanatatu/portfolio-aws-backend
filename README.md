@@ -4,11 +4,9 @@
 
 #
 
-### `lambda functions` &#8212; `api gateway` &#8212; `cloud watch` &#8212; `yaml` are a few of the things I learnt while developing this project
-
+#### `lambda functions` &#8212; `api gateway` &#8212; `cloud watch` &#8212; `yaml` are a few of the things I learnt while developing this project
 &nbsp;
-
-### I also employed Postman extensively for making requests to endpoints when testing.
+#### I also employed Postman extensively for making requests to endpoints when testing.
 
 #
 
