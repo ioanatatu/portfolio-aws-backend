@@ -25,23 +25,26 @@ Or visit the webpage: https://ioanatatu.com
 
 **&#8212;** I am - what you would call in German - a "Quereinsteiger" in this
 profession and therefore take learning very seriously. I have a daily routine of
-coding and work on different projects, but nothing is fully finished at the moment.
-This is why I wanted to build a project where I could log the tasks that I am working
-on every day, their resources (images, links with articles etc), how long I spend on
-each one and how much time I use working with a particular technology (react, nodeJS,
-styling...). And because this app tracks my coding progress, I would also be using it
-as a portfolio, to showcase my skills to potential enployers.
+coding and am working on different projects, but nothing is fully finished at the
+moment. This is why I wanted to build a project where I could log the tasks that I am
+working on every day, their resources (images, links with articles etc), how long I
+spend on each one and how much time I use working with a particular technology (react,
+nodeJS, styling...). And because this app tracks my coding progress, I would also be
+using it as a portfolio, to showcase my skills to potential employers.
 
-**&#8212;** As a first step, I developed the React component architecture, tracked my
-tasks in a json object and was importing that in React. I decided I needed a backend
-and database, where I could store data properly and where my client could make
-requests to. I chose the **RESTful API** approach and **AWS**, so I could learn more
-about these topics. Becoming familiar with (a tiny part of) the AWS ecosystem was a
-nightmare, but every step forward felt like the sweetest victory.
+**&#8212;** As a first step, I developed the React component architecture and tracked
+my tasks in a json object, which I would then import in React. I decided I needed a
+backend and database, where I could store data properly and where my client could make
+requests to. However, my frontend was comfortably hosted on netlify (also connected to
+my domain name), so I didn't want to move all that to heroku, where I had hosted
+previous projects. I therefore chose the **RESTful API** approach and **AWS**, which
+would also give me the opportunity to learn more about these topics. Becoming familiar
+with (a tiny part of) the AWS ecosystem was a nightmare, but every step forward felt
+like the sweetest victory.
 
 **&#8212;** At the moment I have the **projects** and **journal-entries** tables in my
 DynamoDB and I can perform **create, read and remove operations** on them from the
-client-side. I am using these features to add my projects and journal entries (these
+client-side. I am using these features to add my projects and journal-entries (these
 are the tasks I am working on every day) and validate the input with forms I built in
 React. At the same time I also wanted to demo these features to visitors, without
 really deleting data from the database. I decided to mimick these actions on the
@@ -52,5 +55,5 @@ of the magic key. 🔑
 
 **&#8212;** An interesting challenge I am facing is switching between the different
 technologies and perspectives, jumping from configuring the serverless yaml file for
-the backend, to setting state for a tiny button in React, when the audio file has
-finished playing. It's a trip and I'm loving it 👩🏻‍💻
+the backend, to setting state for a tiny button in React when the audio file has
+finished playing. All in all it's a trip and I'm loving it 👩🏻‍💻
